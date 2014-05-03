@@ -158,17 +158,18 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd FX
-
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Basic.fxo Basic.fx
+    <PostBuildEvent>REM cd FX
 
 
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Sky.fxo Sky.fx
+
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Basic.fxo Basic.fx
+
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Sky.fxo Sky.fx
 
 
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Terrain.fxo Terrain.fx
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo NormalMap.fxo NormalMap.fx
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo InstancedNormalMap.fxo InstancedNormalMap.fx</PostBuildEvent>
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo Terrain.fxo Terrain.fx
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo NormalMap.fxo NormalMap.fx
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo InstancedNormalMap.fxo InstancedNormalMap.fx</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -73,6 +73,7 @@
     <Compile Include="FX\DisplacementMapEffect.cs" />
     <Compile Include="FX\Effect.cs" />
     <Compile Include="FX\Effects.cs" />
+    <Compile Include="FX\IncludeFX.cs" />
     <Compile Include="FX\InstancedBasicEffect.cs" />
     <Compile Include="FX\InstancedNormalMapEffect.cs" />
     <Compile Include="FX\NormalMapEffect.cs" />

@@ -2,7 +2,7 @@
 using SlimDX.Direct3D11;
 
 namespace Core.FX {
-    public class ColorEffect :Effect {
+    public class ColorEffect : Effect {
         public readonly EffectTechnique ColorTech;
         private readonly EffectMatrixVariable _wvp;
 

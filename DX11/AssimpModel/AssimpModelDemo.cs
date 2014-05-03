@@ -90,7 +90,6 @@ namespace AssimpModel {
             _treeModel = new BasicModel(Device, _texMgr, "Models/tree.x", "Textures");
 
             _modelInstance = new BasicModelInstance (_treeModel) {
-                
                 World = Matrix.RotationX(MathF.PI / 2)
             };
 
@@ -112,9 +111,9 @@ namespace AssimpModel {
                 World = Matrix.RotationX(-MathF.PI / 2)* Matrix.Scaling(0.05f, 0.05f, 0.05f)*Matrix.Translation(4, 0, 4)
             };
 
-
             return true;
         }
+
         public override void OnResize() {
             base.OnResize();
             _camera.SetLens(0.25f * MathF.PI, AspectRatio, 1.0f, 1000.0f);
@@ -139,12 +138,11 @@ namespace AssimpModel {
             if (Util.IsKeyDown(Keys.PageDown)) {
                 _camera.Zoom(+dt);
             }
-
-
         }
+
         public override void DrawScene() {
             base.DrawScene();
-            ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.Silver);
+            ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.CornflowerBlue);
             ImmediateContext.ClearDepthStencilView(
                 DepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
 

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireBox {
+namespace FireBox
+{
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
@@ -19,8 +20,9 @@ namespace FireBox {
     using SlimDX.Direct3D11;
     using SlimDX.DXGI;
 
-    public class FireDemo :D3DApp {
-        
+    public class FireDemo : D3DApp
+    {
+
         private Buffer _boxVB;
         private Buffer _boxIB;
 
@@ -46,7 +48,9 @@ namespace FireBox {
         private bool _disposed;
         private BasicEffect _fx;
 
-        public FireDemo(IntPtr hInstance) : base(hInstance) {
+        public FireDemo(IntPtr hInstance)
+            : base(hInstance)
+        {
             MainWindowCaption = "Fire Demo";
             _eyePosW = new Vector3();
             _theta = 1.3f * MathF.PI;
@@ -75,16 +79,20 @@ namespace FireBox {
                 },
             };
 
-            _boxMat = new Material {
+            _boxMat = new Material
+            {
                 Ambient = new Color4(0.5f, 0.5f, 0.5f),
-                Diffuse = new Color4(1,1,1),
+                Diffuse = new Color4(1, 1, 1),
                 Specular = new Color4(16.0f, 0.6f, 0.6f, 0.6f)
             };
-
         }
-        protected override void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing) {
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
                     Util.ReleaseCom(ref _boxVB);
                     Util.ReleaseCom(ref _boxIB);
                     Util.ReleaseCom(ref _fireAtlas);
@@ -96,27 +104,30 @@ namespace FireBox {
             base.Dispose(disposing);
         }
 
-public override bool Init() {
-    if (!base.Init()) return false;
+        public override bool Init()
+        {
+            if (!base.Init()) return false;
 
-    Effects.InitAll(Device);
-    _fx = Effects.BasicFX;
-    InputLayouts.InitAll(Device);
+            Effects.InitAll(Device);
+            _fx = Effects.BasicFX;
+            InputLayouts.InitAll(Device);
 
-    _fireAtlas = new TextureAtlas(Device, Directory.GetFiles("Textures", "fire*.bmp"));
+            _fireAtlas = new TextureAtlas(Device, Directory.GetFiles("Textures", "fire*.bmp"));
 
-    BuildGeometryBuffers();
-    return true;
-}
+            BuildGeometryBuffers();
+            return true;
+        }
 
-        public override void OnResize() {
+        public override void OnResize()
+        {
             base.OnResize();
             _proj = Matrix.PerspectiveFovLH(0.25f * MathF.PI, AspectRatio, 1.0f, 1000.0f);
         }
 
         private int i = 0;
         private float _t = 0;
-        public override void UpdateScene(float dt) {
+        public override void UpdateScene(float dt)
+        {
             base.UpdateScene(dt);
             // Get camera position from polar coords
             var x = _radius * MathF.Sin(_phi) * MathF.Cos(_theta);
@@ -133,13 +144,15 @@ public override bool Init() {
 
             // Update texture transform
             _t -= dt;
-            if (_t < 0) {
+            if (_t < 0)
+            {
                 _texTransform = _fireAtlas.GetTexTransform(i++ % _fireAtlas.NumCells);
                 _t = 0.05f;
             }
         }
 
-        public override void DrawScene() {
+        public override void DrawScene()
+        {
             ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.LightSteelBlue);
             ImmediateContext.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
 
@@ -153,7 +166,8 @@ public override bool Init() {
 
             var activeTech = _fx.Light2TexTech;
 
-            for (int p = 0; p < activeTech.Description.PassCount; p++) {
+            for (int p = 0; p < activeTech.Description.PassCount; p++)
+            {
                 ImmediateContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_boxVB, Basic32.Stride, 0));
                 ImmediateContext.InputAssembler.SetIndexBuffer(_boxIB, Format.R32_UInt, 0);
 
@@ -166,7 +180,7 @@ public override bool Init() {
                 _fx.SetWorldViewProj(wvp);
                 _fx.SetTexTransform(_texTransform);
                 _fx.SetMaterial(_boxMat);
-                _fx.SetDiffuseMap( _fireAtlas.TextureView);
+                _fx.SetDiffuseMap(_fireAtlas.TextureView);
 
                 activeTech.GetPassByIndex(p).Apply(ImmediateContext);
 
@@ -175,17 +189,21 @@ public override bool Init() {
             SwapChain.Present(0, PresentFlags.None);
         }
 
-        protected override void OnMouseDown(object sender, MouseEventArgs mouseEventArgs) {
-           _lastMousePos = mouseEventArgs.Location;
+        protected override void OnMouseDown(object sender, MouseEventArgs mouseEventArgs)
+        {
+            _lastMousePos = mouseEventArgs.Location;
             Window.Capture = true;
         }
 
-        protected override void OnMouseUp(object sender, MouseEventArgs e) {
-             Window.Capture = false;
+        protected override void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            Window.Capture = false;
         }
 
-        protected override void OnMouseMove(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
+        protected override void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
                 var dx = MathF.ToRadians(0.25f * (e.X - _lastMousePos.X));
                 var dy = MathF.ToRadians(0.25f * (e.Y - _lastMousePos.Y));
 
@@ -193,7 +211,9 @@ public override bool Init() {
                 _phi += dy;
 
                 _phi = MathF.Clamp(_phi, 0.1f, MathF.PI - 0.1f);
-            } else if (e.Button == MouseButtons.Right) {
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
                 var dx = 0.01f * (e.X - _lastMousePos.X);
                 var dy = 0.01f * (e.Y - _lastMousePos.Y);
                 _radius += dx - dy;
@@ -203,7 +223,8 @@ public override bool Init() {
             _lastMousePos = e.Location;
         }
 
-        private void BuildGeometryBuffers() {
+        private void BuildGeometryBuffers()
+        {
             var box = GeometryGenerator.CreateBox(1, 1, 1);
 
             _boxVertexOffset = 0;
@@ -214,7 +235,8 @@ public override bool Init() {
 
             var vertices = new List<Basic32>();
 
-            foreach (var vertex in box.Vertices) {
+            foreach (var vertex in box.Vertices)
+            {
                 vertices.Add(new Basic32(vertex.Position, vertex.Normal, vertex.TexC));
             }
             var vbd = new BufferDescription(Basic32.Stride * vertices.Count, ResourceUsage.Immutable, BindFlags.VertexBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
@@ -226,15 +248,18 @@ public override bool Init() {
         }
     }
 
-    class Program {
-            static void Main(string[] args) {
+    class Program
+    {
+        static void Main(string[] args)
+        {
             Configuration.EnableObjectTracking = true;
             var app = new FireDemo(Process.GetCurrentProcess().Handle);
-            if (!app.Init()) {
+            if (!app.Init())
+            {
                 return;
             }
             app.Run();
         }
-        
+
     }
 }

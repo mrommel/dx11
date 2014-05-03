@@ -17,14 +17,15 @@ namespace SkullDemo {
 
     using Effect = SlimDX.Direct3D11.Effect;
     using System.Globalization;
+    using Core.FX;
     
     public class SkullDemo :D3DApp {
         private Buffer _vb;
         private Buffer _ib;
 
-        private Effect _fx;
+        private ColorEffect _fx;
         private EffectTechnique _tech;
-        private EffectMatrixVariable _fxWVP;
+        //private EffectMatrixVariable _fxWVP;
 
         private InputLayout _inputLayout;
 
@@ -50,7 +51,7 @@ namespace SkullDemo {
             _ib = null;
             _fx = null;
             _tech = null;
-            _fxWVP = null;
+            //_fxWVP = null;
             _inputLayout = null;
             _wireframeRS = null;
             _skullIndexCount = 0;
@@ -133,7 +134,7 @@ namespace SkullDemo {
 
             var wvp = _skullWorld*_view*_proj;
 
-            _fxWVP.SetMatrix(wvp);
+            _fx.SetWorldViewProj(wvp);
 
             for (var i = 0; i < _tech.Description.PassCount; i++) {
                 _tech.GetPassByIndex(i).Apply(ImmediateContext);
@@ -174,7 +175,6 @@ namespace SkullDemo {
                 var vcount = 0;
                 var tcount = 0;
                 using (var reader = new StreamReader("Models\\skull.txt")) {
-                    
 
                     var input = reader.ReadLine();
                     if (input != null)
@@ -243,19 +243,10 @@ namespace SkullDemo {
             }
         }
         private void BuildFX() {
-            ShaderBytecode compiledShader = null;
-            try {
-                compiledShader = new ShaderBytecode(new DataStream(File.ReadAllBytes("fx/color.fxo"), false, false));
-                _fx = new Effect(Device, compiledShader);
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-                return;
-            } finally {
-                Util.ReleaseCom(ref compiledShader);
-            }
+            Effects.InitAll(Device);
+            _fx = Effects.ColorFX;
 
-            _tech = _fx.GetTechniqueByName("ColorTech");
-            _fxWVP = _fx.GetVariableByName("gWorldViewProj").AsMatrix();
+            _tech = _fx.ColorTech;
         }
         private void BuildVertexLayout() {
             var vertexDesc = new[] {

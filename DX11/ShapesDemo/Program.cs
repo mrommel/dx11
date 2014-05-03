@@ -119,7 +119,7 @@ namespace ShapesDemo {
             BuildVertexLayout();
 
             var wireFrameDesc = new RasterizerStateDescription {
-                FillMode = FillMode.Wireframe,
+                FillMode = FillMode.Solid,
                 CullMode = CullMode.Back,
                 IsFrontCounterclockwise = false,
                 IsDepthClipEnabled = true
@@ -241,16 +241,16 @@ namespace ShapesDemo {
 
             var vs = new List<VertexPC>();
             foreach (var vertex in box.Vertices) {
-                vs.Add(new VertexPC(vertex.Position, Color.Black));
+                vs.Add(new VertexPC(vertex.Position, Color.Red));
             }
             foreach (var v in grid.Vertices) {
-                vs.Add(new VertexPC(v.Position, Color.Black));
+                vs.Add(new VertexPC(v.Position, Color.Green));
             }
             foreach (var v in sphere.Vertices) {
-                vs.Add(new VertexPC(v.Position, Color.Black));
+                vs.Add(new VertexPC(v.Position, Color.Blue));
             }
             foreach (var v in cylinder.Vertices) {
-                vs.Add(new VertexPC(v.Position, Color.Black));
+                vs.Add(new VertexPC(v.Position, Color.Yellow));
             }
             var vbd = new BufferDescription(VertexPC.Stride * totalVertexCount,
                 ResourceUsage.Immutable, BindFlags.VertexBuffer,
@@ -269,9 +269,18 @@ namespace ShapesDemo {
 
         }
         private void BuildFX() {
+            var shaderFlags = ShaderFlags.None;
+#if DEBUG
+            shaderFlags |= ShaderFlags.Debug;
+            shaderFlags |= ShaderFlags.SkipOptimization;
+#endif
+            string errors = null;
             ShaderBytecode compiledShader = null;
             try {
-                compiledShader = new ShaderBytecode(new DataStream(File.ReadAllBytes("fx/color.fxo"), false, false));
+                //compiledShader = new ShaderBytecode(new DataStream(File.ReadAllBytes("fx/color.fxo"), false, false));
+                //_fx = new Effect(Device, compiledShader);
+                Core.FX.IncludeFX includeFX = new Core.FX.IncludeFX();
+                compiledShader = ShaderBytecode.CompileFromFile("FX/color.fx", null, "fx_5_0", shaderFlags, EffectFlags.None, null, includeFX, out errors);
                 _fx = new Effect(Device, compiledShader);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -283,6 +292,7 @@ namespace ShapesDemo {
             _tech = _fx.GetTechniqueByName("ColorTech");
             _fxWVP = _fx.GetVariableByName("gWorldViewProj").AsMatrix();
         }
+
         private void BuildVertexLayout() {
             var vertexDesc = new[] {
                 new InputElement("POSITION", 0, Format.R32G32B32_Float, 
@@ -294,7 +304,6 @@ namespace ShapesDemo {
             var passDesc = _tech.GetPassByIndex(0).Description;
             _inputLayout = new InputLayout(Device, passDesc.Signature, vertexDesc);
         }
-
     }
 
     class Program {

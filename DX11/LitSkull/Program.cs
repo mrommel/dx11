@@ -141,12 +141,7 @@ namespace LitSkull {
                 Diffuse = new Color4(0.8f, 0.8f, 0.8f),
                 Specular = new Color4(16.0f, 0.8f, 0.8f, 0.8f)
             };
-
-            
-
         }
-
-        
 
         protected override void Dispose(bool disposing) {
             if (!_disposed) {
@@ -163,12 +158,13 @@ namespace LitSkull {
             }
             base.Dispose(disposing);
         }
+
         public override bool Init() {
             if (!base.Init()) {
                 return false;
             }
             Effects.InitAll(Device);
-            _fx =  Effects.BasicFX;
+            _fx = Effects.BasicFX;
             InputLayouts.InitAll(Device);
 
             BuildShapeGeometryBuffers();
@@ -178,10 +174,12 @@ namespace LitSkull {
 
             return true;
         }
+
         public override void OnResize() {
             base.OnResize();
             _proj = Matrix.PerspectiveFovLH(0.25f * MathF.PI, AspectRatio, 1.0f, 1000.0f);
         }
+
         public override void UpdateScene(float dt) {
             base.UpdateScene(dt);
             // Get camera position from polar coords
@@ -197,6 +195,7 @@ namespace LitSkull {
 
             _eyePosW = pos;
         }
+
         public override void DrawScene() {
            
             ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.LightSteelBlue);
@@ -290,9 +289,11 @@ namespace LitSkull {
             _lastMousePos = mouseEventArgs.Location;
             Window.Capture = true;
         }
+
         protected override void OnMouseUp(object sender, MouseEventArgs e) {
             Window.Capture = false;
         }
+
         protected override void OnMouseMove(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 var dx = MathF.ToRadians(0.25f * (e.X - _lastMousePos.X));
@@ -311,6 +312,7 @@ namespace LitSkull {
             }
             _lastMousePos = e.Location;
         }
+
         private void BuildShapeGeometryBuffers() {
             var box = GeometryGenerator.CreateBox(1, 1, 1);
             var grid = GeometryGenerator.CreateGrid(20, 30, 60, 40);
@@ -351,8 +353,8 @@ namespace LitSkull {
 
             var ibd = new BufferDescription(sizeof(int) * totalIndexCount, ResourceUsage.Immutable, BindFlags.IndexBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
             _shapesIB = new Buffer(Device, new DataStream(indices.ToArray(), false, false), ibd);
-
         }
+
         private void BuildSkullGeometryBuffers() {
             try {
                 var vertices = new List<VertexPN>();
@@ -360,8 +362,6 @@ namespace LitSkull {
                 var vcount = 0;
                 var tcount = 0;
                 using (var reader = new StreamReader("Models\\skull.txt")) {
-
-
                     var input = reader.ReadLine();
                     if (input != null)
                         // VertexCount: X
@@ -420,12 +420,11 @@ namespace LitSkull {
                 var ibd = new BufferDescription(sizeof(int) * _skullIndexCount, ResourceUsage.Immutable,
                     BindFlags.IndexBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
                 _skullIB = new Buffer(Device, new DataStream(indices.ToArray(), false, false), ibd);
-
-
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void SwitchLights(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.D0:

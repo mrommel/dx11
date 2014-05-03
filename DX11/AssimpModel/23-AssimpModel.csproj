@@ -126,6 +126,9 @@
     <Content Include="Models\magician.X">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="FX\NormalMap.fxo">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Models\Bob.md5mesh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -153,9 +156,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd FX
+    <PostBuildEvent>REM cd FX
 
-fxc /O0 /Fc /Zi /T  fx_5_0 /Fo NormalMap.fxo NormalMap.fx</PostBuildEvent>
+REM fxc /O0 /Fc /Zi /T  fx_5_0 /Fo NormalMap.fxo NormalMap.fx</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

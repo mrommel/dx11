@@ -105,8 +105,6 @@ namespace TexturedHills {
                 Diffuse = Color.White,
                 Specular = new Color4(32.0f, 0.8f, 0.8f, 0.8f)
             };
-
-
         }
 
         protected override void Dispose(bool disposing) {
@@ -209,7 +207,7 @@ namespace TexturedHills {
             Effects.BasicFX.SetDirLights(_dirLights);
             Effects.BasicFX.SetEyePosW(_eyePosW);
 
-            var activeTech = Effects.BasicFX.Light3TexTech;
+            var activeTech = Effects.BasicFX.Light1Tech; // Light3TexTech;
 
             for (int p = 0; p < activeTech.Description.PassCount; p++) {
                 ImmediateContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_landVB, Basic32.Stride, 0));
@@ -243,14 +241,11 @@ namespace TexturedHills {
                 Effects.BasicFX.SetTexTransform(_waterTexTransform);
                 Effects.BasicFX.SetMaterial(_wavesMat);
                 Effects.BasicFX.SetDiffuseMap(_wavesMapSRV);
-
-                
+   
                 pass.Apply(ImmediateContext);
                 ImmediateContext.DrawIndexed(3*_waves.TriangleCount, 0, 0);
-
             }
             SwapChain.Present(0, PresentFlags.None);
-
         }
 
         protected override void OnMouseDown(object sender, MouseEventArgs mouseEventArgs) {

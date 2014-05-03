@@ -13,8 +13,10 @@ using SlimDX.Direct3D11;
 using SlimDX.DirectWrite;
 using SlimDX.DXGI;
 
-namespace _33_Pathfinding {
-    class PathfindingDemo : D3DApp {
+namespace _33_Pathfinding
+{
+    class PathfindingDemo : D3DApp
+    {
         private Sky _sky;
         private Terrain _terrain;
         private readonly DirectionalLight[] _dirLights;
@@ -26,7 +28,6 @@ namespace _33_Pathfinding {
         private bool _disposed;
 
         private Ssao _ssao;
-
 
         private ShaderResourceView _whiteTex;
 
@@ -48,12 +49,14 @@ namespace _33_Pathfinding {
         private Unit _unit;
 
         private PathfindingDemo(IntPtr hInstance)
-            : base(hInstance) {
+            : base(hInstance)
+        {
             MainWindowCaption = "Pathfinding Demo";
             //Enable4xMsaa = true;
             _lastMousePos = new Point();
 
-            _camera = new LookAtCamera {
+            _camera = new LookAtCamera
+            {
                 Position = new Vector3(0, 20, 100)
             };
             _dirLights = new[] {
@@ -79,9 +82,12 @@ namespace _33_Pathfinding {
             _originalLightDirs = _dirLights.Select(l => l.Direction).ToArray();
         }
 
-        protected override void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing) {
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
                     ImmediateContext.ClearState();
                     Util.ReleaseCom(ref _sky);
                     Util.ReleaseCom(ref _terrain);
@@ -103,7 +109,8 @@ namespace _33_Pathfinding {
             base.Dispose(disposing);
         }
 
-        public override bool Init() {
+        public override bool Init()
+        {
             if (!base.Init()) return false;
 
             Effects.InitAll(Device);
@@ -113,20 +120,24 @@ namespace _33_Pathfinding {
 
             _sky = new Sky(Device, "Textures/grasscube1024.dds", 5000.0f);
 
-            var tii = new InitInfo {
+            var tii = new InitInfo
+            {
                 HeightMapFilename = null,
                 LayerMapFilename0 = "textures/grass.png",
                 LayerMapFilename1 = "textures/hills.png",
                 LayerMapFilename2 = "textures/stone.png",
                 LayerMapFilename3 = "Textures/lightdirt.dds",
                 LayerMapFilename4 = "textures/snow.png",
-                Material = new Material() {
-                    Ambient = Color.LightGray, Diffuse = Color.LightGray, Specular = new Color4(64, 0, 0, 0)
+                Material = new Material()
+                {
+                    Ambient = Color.LightGray,
+                    Diffuse = Color.LightGray,
+                    Specular = new Color4(64, 0, 0, 0)
                 },
                 BlendMapFilename = null,
                 HeightScale = 50.0f,
-                HeightMapWidth = 2049,
-                HeightMapHeight = 2049,
+                HeightMapWidth = 1025, //2049,
+                HeightMapHeight = 1025, //2049,
                 CellSpacing = 0.5f,
 
                 Seed = MathF.Rand(),
@@ -136,8 +147,6 @@ namespace _33_Pathfinding {
                 NoiseSize2 = 2.5f,
                 Persistence2 = 0.8f,
                 Octaves2 = 3,
-
-
             };
             _terrain = new Terrain();
             //_terrain.DebugQuadTree = true;
@@ -159,7 +168,8 @@ namespace _33_Pathfinding {
 
             _sphereModel = new BasicModel();
             _sphereModel.CreateSphere(Device, 0.25f, 10, 10);
-            _sphereModel.Materials[0] = new Material {
+            _sphereModel.Materials[0] = new Material
+            {
                 Ambient = new Color4(63, 0, 0),
                 Diffuse = Color.Red,
                 Specular = new Color4(32, 1.0f, 1.0f, 1.0f)
@@ -172,48 +182,57 @@ namespace _33_Pathfinding {
 
             FontCache.RegisterFont("bold", 16, "Courier New", FontWeight.Bold);
 
-
             return true;
         }
 
-
-
-        public override void OnResize() {
+        public override void OnResize()
+        {
             base.OnResize();
             _camera.SetLens(0.25f * MathF.PI, AspectRatio, 1.0f, 1000.0f);
-            if (_ssao != null) {
+            if (_ssao != null)
+            {
                 _ssao.OnSize(ClientWidth, ClientHeight, _camera.FovY, _camera.FarZ);
             }
         }
 
-        public override void UpdateScene(float dt) {
+        public override void UpdateScene(float dt)
+        {
             base.UpdateScene(dt);
-            if (Util.IsKeyDown(Keys.Up)) {
+            if (Util.IsKeyDown(Keys.Up))
+            {
                 _camera.Walk(10.0f * dt);
             }
-            if (Util.IsKeyDown(Keys.Down)) {
+            if (Util.IsKeyDown(Keys.Down))
+            {
                 _camera.Walk(-10.0f * dt);
             }
-            if (Util.IsKeyDown(Keys.Left)) {
+            if (Util.IsKeyDown(Keys.Left))
+            {
                 _camera.Strafe(-10.0f * dt);
             }
-            if (Util.IsKeyDown(Keys.Right)) {
+            if (Util.IsKeyDown(Keys.Right))
+            {
                 _camera.Strafe(10.0f * dt);
             }
-            if (Util.IsKeyDown(Keys.PageUp)) {
+            if (Util.IsKeyDown(Keys.PageUp))
+            {
                 _camera.Zoom(-dt * 10.0f);
             }
-            if (Util.IsKeyDown(Keys.PageDown)) {
+            if (Util.IsKeyDown(Keys.PageDown))
+            {
                 _camera.Zoom(+dt * 10.0f);
             }
-            if (Util.IsKeyDown(Keys.D2)) {
+            if (Util.IsKeyDown(Keys.D2))
+            {
                 _camWalkMode = true;
             }
-            if (Util.IsKeyDown(Keys.D3)) {
+            if (Util.IsKeyDown(Keys.D3))
+            {
                 _camWalkMode = false;
             }
 
-            if (_camWalkMode) {
+            if (_camWalkMode)
+            {
                 var camPos = _camera.Target;
                 var y = _terrain.Height(camPos.X, camPos.Z);
                 _camera.Target = new Vector3(camPos.X, y, camPos.Z);
@@ -233,11 +252,10 @@ namespace _33_Pathfinding {
 
             _camera.UpdateViewMatrix();
             _unit.Update(dt);
-
         }
 
-
-        private void BuildShadowTransform() {
+        private void BuildShadowTransform()
+        {
             var lightDir = _dirLights[0].Direction;
             var lightPos = -2.0f * _sceneBounds.Radius * lightDir;
             var targetPos = _sceneBounds.Center;
@@ -257,7 +275,8 @@ namespace _33_Pathfinding {
 
             //var p = Matrix.OrthoLH(r - l, t - b+5, n, f);
             var p = Matrix.OrthoOffCenterLH(l, r, b, t, n, f);
-            var T = new Matrix {
+            var T = new Matrix
+            {
                 M11 = 0.5f,
                 M22 = -0.5f,
                 M33 = 1.0f,
@@ -274,54 +293,53 @@ namespace _33_Pathfinding {
             _shadowTransform = s;
         }
 
-        public override void DrawScene() {
+        public override void DrawScene()
+        {
             Effects.TerrainFX.SetSsaoMap(_whiteTex);
             Effects.TerrainFX.SetShadowMap(_sMap.DepthMapSRV);
             Effects.TerrainFX.SetShadowTransform(_shadowTransform);
             _minimap.RenderMinimap(_dirLights);
 
-
-
-
             var view = _lightView;
             var proj = _lightProj;
             var viewProj = view * proj;
-            
+
             _terrain.Renderer.DrawToShadowMap(ImmediateContext, _sMap, viewProj);
             DrawSceneToShadowMap();
 
-
             ImmediateContext.Rasterizer.State = null;
-            
-
             ImmediateContext.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
             ImmediateContext.Rasterizer.SetViewports(Viewport);
 
-
             _terrain.Renderer.ComputeSsao(ImmediateContext, _camera, _ssao, DepthStencilView);
-
 
             ImmediateContext.OutputMerger.SetTargets(DepthStencilView, RenderTargetView);
             ImmediateContext.Rasterizer.SetViewports(Viewport);
 
             ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.Silver);
-
             ImmediateContext.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
 
-            if (Util.IsKeyDown(Keys.W)) {
+            if (Util.IsKeyDown(Keys.W))
+            {
                 ImmediateContext.Rasterizer.State = RenderStates.WireframeRS;
             }
 
-            if (Util.IsKeyDown(Keys.S)) {
+            if (Util.IsKeyDown(Keys.S))
+            {
                 Effects.TerrainFX.SetSsaoMap(_whiteTex);
-            } else {
+            }
+            else
+            {
 
                 Effects.TerrainFX.SetSsaoMap(_ssao.AmbientSRV);
             }
-            if (!Util.IsKeyDown(Keys.A)) {
+            if (!Util.IsKeyDown(Keys.A))
+            {
                 Effects.TerrainFX.SetShadowMap(_sMap.DepthMapSRV);
                 Effects.TerrainFX.SetShadowTransform(_shadowTransform);
-            } else {
+            }
+            else
+            {
                 Effects.TerrainFX.SetShadowMap(_whiteTex);
             }
 
@@ -331,46 +349,40 @@ namespace _33_Pathfinding {
 
             ImmediateContext.InputAssembler.InputLayout = InputLayouts.Basic32;
             ImmediateContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
-            for (var p = 0; p < Effects.BasicFX.Light1Tech.Description.PassCount; p++) {
+            for (var p = 0; p < Effects.BasicFX.Light1Tech.Description.PassCount; p++)
+            {
                 var pass = Effects.BasicFX.Light1Tech.GetPassByIndex(p);
                 _unit.Render(ImmediateContext, pass, _camera.View, _camera.Proj);
-
             }
 
             _terrain.Renderer.Draw(ImmediateContext, _camera, _dirLights);
 
-
-
             ImmediateContext.Rasterizer.State = null;
 
-
-
-
             _sky.Draw(ImmediateContext, _camera);
-
 
             ImmediateContext.Rasterizer.State = null;
             ImmediateContext.OutputMerger.DepthStencilState = null;
             ImmediateContext.OutputMerger.DepthStencilReference = 0;
 
-
             _minimap.Draw(ImmediateContext);
 
-
-FontCache.DrawStrings(
-    new[] {
+            FontCache.DrawStrings(
+                new[] {
         "Currently: " + _unit.Position,
         "Destination: " + _unit.Destination.MapPosition
     },
-    Vector2.Zero,
-    Color.Yellow
-);
-FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width - 200, 0), Color.Red);
+                Vector2.Zero,
+                Color.Yellow
+            );
+            FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width - 200, 0), Color.Red);
             EndFrame();
 
         }
-        private void DrawSceneToShadowMap() {
-            try {
+        private void DrawSceneToShadowMap()
+        {
+            try
+            {
                 var view = _lightView;
                 var proj = _lightProj;
                 var viewProj = view * proj;
@@ -382,20 +394,25 @@ FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width
                 ImmediateContext.InputAssembler.InputLayout = InputLayouts.PosNormalTexTan;
                 var smapTech = Effects.BuildShadowMapFX.BuildShadowMapTech;
 
-                for (var p = 0; p < smapTech.Description.PassCount; p++) {
+                for (var p = 0; p < smapTech.Description.PassCount; p++)
+                {
                     var pass = smapTech.GetPassByIndex(p);
                     _unit.RenderShadow(ImmediateContext, pass, view, proj);
                 }
 
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
         }
 
 
-        protected override void OnMouseDown(object sender, MouseEventArgs e) {
-            switch (e.Button) {
+        protected override void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
                 case MouseButtons.Left:
                     _minimap.OnClick(e);
                     _lastMousePos = e.Location;
@@ -409,11 +426,13 @@ FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width
                     var worldPos = new Vector3();
 
                     // do intersection test
-                    if (!_terrain.Intersect(ray, ref worldPos, ref tile)) {
+                    if (!_terrain.Intersect(ray, ref worldPos, ref tile))
+                    {
                         return;
                     }
                     Console.WriteLine("Clicked at " + worldPos.ToString());
-                    if (tile == null) {
+                    if (tile == null)
+                    {
                         return;
                     }
                     // move the unit towards the new goal
@@ -424,12 +443,15 @@ FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width
             }
         }
 
-        protected override void OnMouseUp(object sender, MouseEventArgs e) {
+        protected override void OnMouseUp(object sender, MouseEventArgs e)
+        {
             Window.Capture = false;
         }
 
-        protected override void OnMouseMove(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
+        protected override void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
                 var dx = MathF.ToRadians(0.25f * (e.X - _lastMousePos.X));
                 var dy = MathF.ToRadians(0.25f * (e.Y - _lastMousePos.Y));
 
@@ -440,11 +462,15 @@ FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width
             _lastMousePos = e.Location;
         }
 
-        protected override void OnMouseWheel(object sender, MouseEventArgs e) {
+        protected override void OnMouseWheel(object sender, MouseEventArgs e)
+        {
             var zoom = e.Delta;
-            if (zoom > 0) {
+            if (zoom > 0)
+            {
                 _camera.Zoom(-1);
-            } else {
+            }
+            else
+            {
                 _camera.Zoom(1);
             }
 
@@ -452,10 +478,12 @@ FontCache.DrawString("bold", "This is bold", new Vector2(Window.ClientSize.Width
 
         }
 
-        private static void Main() {
+        private static void Main()
+        {
             Configuration.EnableObjectTracking = true;
             var app = new PathfindingDemo(Process.GetCurrentProcess().Handle);
-            if (!app.Init()) {
+            if (!app.Init())
+            {
                 return;
             }
             app.Run();

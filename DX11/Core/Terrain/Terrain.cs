@@ -110,9 +110,7 @@
         public void Init(Device device, DeviceContext dc, InitInfo info) {
             D3DApp.GD3DApp.ProgressUpdate.Draw(0, "Initializing terrain");
 
-
             Info = info;
-
 
             HeightMap = new HeightMap(Info.HeightMapWidth, Info.HeightMapHeight, Info.HeightScale);
             if (!string.IsNullOrEmpty(Info.HeightMapFilename)) {

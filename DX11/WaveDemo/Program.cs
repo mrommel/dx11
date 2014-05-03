@@ -250,9 +250,25 @@ namespace WaveDemo {
             _wavesIB = new Buffer(Device, new DataStream(indices.ToArray(), false, false), ibd);
         }
         private void BuildFX() {
+            var shaderFlags = ShaderFlags.None;
+#if DEBUG
+            shaderFlags |= ShaderFlags.Debug;
+            shaderFlags |= ShaderFlags.SkipOptimization;
+#endif
+            string errors = null;
             ShaderBytecode compiledShader = null;
             try {
-                compiledShader = new ShaderBytecode(new DataStream(File.ReadAllBytes("fx/color.fxo"), false, false));
+                //compiledShader = new ShaderBytecode(new DataStream(File.ReadAllBytes("fx/color.fxo"), false, false));
+                //_fx = new Effect(Device, compiledShader);
+                compiledShader = ShaderBytecode.CompileFromFile(
+                "FX/color.fx",
+                null,
+                "fx_5_0",
+                shaderFlags,
+                EffectFlags.None,
+                null,
+                null,
+                out errors);
                 _fx = new Effect(Device, compiledShader);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);

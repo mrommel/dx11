@@ -62,8 +62,6 @@ namespace Core {
         protected SpriteRenderer Sprite;
         protected FontCache FontCache;
 
-
-
         public ProgressUpdate ProgressUpdate { get { return _progressUpdate; } }
 
         public Buffer ScreenQuadVB {
@@ -86,8 +84,6 @@ namespace Core {
                     StartPosition = FormStartPosition.CenterScreen,
                     MyWndProc = WndProc,
                     MinimumSize = new Size(200, 200),
-
-
                 };
                 Window.MouseDown += OnMouseDown;
                 Window.MouseUp += OnMouseUp;
@@ -105,7 +101,6 @@ namespace Core {
                     OnResize();
                 };
 
-
                 Window.Show();
                 Window.Update();
                 return true;
@@ -115,14 +110,13 @@ namespace Core {
             }
         }
 
-        protected virtual void OnMouseWheel(object sender, MouseEventArgs e) { }
+        protected virtual void OnMouseWheel(object sender, MouseEventArgs e) { 
+        }
 
         protected virtual void OnMouseMove(object sender, MouseEventArgs e) {
-
         }
 
         protected virtual void OnMouseUp(object sender, MouseEventArgs e) {
-
         }
 
         protected virtual void OnMouseDown(object sender, MouseEventArgs e) {
@@ -226,7 +220,6 @@ namespace Core {
             return true;
         }
 
-
         protected void CalculateFrameRateStats() {
             _frameCount++;
             if ((Timer.TotalTime - _timeElapsed) >= 1.0f) {
@@ -295,6 +288,7 @@ namespace Core {
 
             GD3DApp = this;
         }
+
         public virtual bool Init() {
             if (!InitMainWindow()) {
                 return false;
@@ -310,6 +304,7 @@ namespace Core {
             _running = true;
             return true;
         }
+
         private void BuildScreenQuadGeometryBuffers() {
             var quad = GeometryGenerator.CreateFullScreenQuad();
 
@@ -332,8 +327,6 @@ namespace Core {
                 });
                 Util.ReleaseCom(ref factory);
                 _progressUpdate = new ProgressUpdate(_dxWRT);
-
-
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
                 return false;
@@ -377,6 +370,7 @@ namespace Core {
 
             ImmediateContext.Rasterizer.SetViewports(Viewport);
         }
+
         public virtual void UpdateScene(float dt) { }
         public virtual void DrawScene() { }
 
@@ -396,8 +390,6 @@ namespace Core {
                     CalculateFrameRateStats();
                     UpdateScene(Timer.DeltaTime);
                     DrawScene();
-
-
                 } else {
                     Thread.Sleep(100);
                 }

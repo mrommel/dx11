@@ -1,19 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{41ACBEF1-B159-4C49-A0F9-A07911617B52}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{79E45F9D-B161-4C12-AB0D-306B0051717E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1-InitDirect3D", "InitDirect3D\1-InitDirect3D.csproj", "{C67D7BC4-21E4-4563-A0BC-79F78CD4C1C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-InitDirect3D", "InitDirect3D\01-InitDirect3D.csproj", "{C67D7BC4-21E4-4563-A0BC-79F78CD4C1C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2-BoxDemo", "BoxDemo\2-BoxDemo.csproj", "{2183B279-2804-4749-803E-3DD4DD8EA9D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-BoxDemo", "BoxDemo\02-BoxDemo.csproj", "{2183B279-2804-4749-803E-3DD4DD8EA9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3-HillDemo", "HillDemo\3-HillDemo.csproj", "{9DC8B8EF-E3F0-4306-9646-D82F1D134625}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-HillDemo", "HillDemo\03-HillDemo.csproj", "{9DC8B8EF-E3F0-4306-9646-D82F1D134625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-ShapesDemo", "ShapesDemo\4-ShapesDemo.csproj", "{5A76A5C4-2E85-470B-8039-87565D625F6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-ShapesDemo", "ShapesDemo\04-ShapesDemo.csproj", "{5A76A5C4-2E85-470B-8039-87565D625F6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{177C5CB8-FF8B-4CBC-9D3F-25878D8E7501}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,15 +21,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5-SkullDemo", "SkullDemo\5-SkullDemo.csproj", "{85770DD8-59C4-48E6-BDD5-26760B9691B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-SkullDemo", "SkullDemo\05-SkullDemo.csproj", "{85770DD8-59C4-48E6-BDD5-26760B9691B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "6-WaveDemo", "WaveDemo\6-WaveDemo.csproj", "{E3C0B4FA-10D0-45E6-9035-A72B8C4BE803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-WaveDemo", "WaveDemo\06-WaveDemo.csproj", "{E3C0B4FA-10D0-45E6-9035-A72B8C4BE803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7-LightingDemo", "LightingDemo\7-LightingDemo.csproj", "{C817B76A-97D4-4CC1-9651-3D405934AC83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-LightingDemo", "LightingDemo\07-LightingDemo.csproj", "{C817B76A-97D4-4CC1-9651-3D405934AC83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8-LitSkull", "LitSkull\8-LitSkull.csproj", "{2947BFA6-798E-4960-9310-05E32CFA32A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08-LitSkull", "LitSkull\08-LitSkull.csproj", "{2947BFA6-798E-4960-9310-05E32CFA32A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "9-CrateDemo", "CrateDemo\9-CrateDemo.csproj", "{BEDF8CD8-078B-4BC6-A388-B63D36499ABB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09-CrateDemo", "CrateDemo\09-CrateDemo.csproj", "{BEDF8CD8-078B-4BC6-A388-B63D36499ABB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10-TexturedHills", "TexturedHills\10-TexturedHills.csproj", "{0FDE6743-D46D-44B1-98D4-116863D258C1}"
 EndProject

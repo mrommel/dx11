@@ -97,8 +97,8 @@
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
-
         }
+
         public static void DestroyAll() {
             Util.ReleaseCom(ref BasicFX);
             Util.ReleaseCom(ref TreeSpriteFX);
